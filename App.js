@@ -33,6 +33,21 @@ export default function App() {
 
   ]);
 
+  const changeMusic = (id) =>{
+    let newMusics = musicas.filter((val,k)=>{
+        if(id == k){
+          musicas[k].playing = true;
+        }
+        else{
+          musicas[k].playing = false;
+        }
+
+        return musicas[k];
+    })
+
+    setarMusicas(newMusics);
+  }
+
   return (
     <ScrollView style={styles.container}>
       <StatusBar hidden/>
@@ -46,12 +61,12 @@ export default function App() {
       </View>
 
       {
-        musicas.map((val)=>{
+        musicas.map((val,k)=>{
 
           if(val.playing){
             return(
               <View style={styles.table}>
-                <TouchableOpacity style={{width:'100%',flexDirection:'row'}}>
+                <TouchableOpacity onPress={()=>changeMusic(k)} style={{width:'100%',flexDirection:'row'}}>
                   <Text style={styles.tableTextSelected}><AntDesign name='play' size={15} color="#1DB954" />  {val.nome}</Text>
                   <Text style={styles.tableTextSelected}>{val.artista}</Text>
                 </TouchableOpacity>
@@ -60,7 +75,7 @@ export default function App() {
           }else{
             return(
               <View style={styles.table}>
-                <TouchableOpacity style={{width:'100%',flexDirection:'row'}}>
+                <TouchableOpacity onPress={()=>changeMusic(k)} style={{width:'100%',flexDirection:'row'}}>
                   <Text style={styles.tableText}><AntDesign name='play' size={15} color="white" />  {val.nome}</Text>
                   <Text style={styles.tableText}>{val.artista}</Text>
                 </TouchableOpacity>
