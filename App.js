@@ -13,30 +13,32 @@ export default function App() {
     {
       nome: 'Sweet chilf of mine',
       artista: 'Guns N Roses',
-      playing: true,
-      file: ''
+      playing: false,
+      file: require('./audio.mp3')
     },
 
     {
       nome: 'Welcome to the jungle',
       artista: 'Guns N Roses',
       playing: false,
-      file: ''
+      file: require('./audio.mp3')
     },
 
     {
       nome: 'This love',
       artista: 'Maroon 5',
       playing: false,
-      file: ''
+      file: require('./audio.mp3')
     }
 
   ]);
 
-  const changeMusic = (id) =>{
+  const changeMusic = async (id) =>{
+    let curFile = null;
     let newMusics = musicas.filter((val,k)=>{
         if(id == k){
           musicas[k].playing = true;
+          curFile = musicas[k].file;
         }
         else{
           musicas[k].playing = false;
@@ -45,6 +47,18 @@ export default function App() {
         return musicas[k];
     })
 
+    if(audio != null){
+      audio.unloadAsync();
+    }
+
+    let curAudio = new Audio.Sound();
+
+    try{
+      await curAudio.loadAsync(curFile);
+      await curAudio.playAsync();
+    }catch(error){}
+
+    setarAudio(curAudio);
     setarMusicas(newMusics);
   }
 
