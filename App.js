@@ -1,11 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { LogBox, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Audio } from 'expo-av';
 import { useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import Player from './Player.js';
 
 export default function App() {
+
+  LogBox.ignoreAllLogs(true);
+
+  const [audioIndex,setarAudioIndex] = useState(0);
+
+  const [playing,setPlaying] = useState(false);
 
   const [audio,setarAudio] = useState(null);
 
@@ -40,6 +46,8 @@ export default function App() {
         if(id == k){
           musicas[k].playing = true;
           curFile = musicas[k].file;
+          setPlaying(true);
+          setarAudioIndex(id);
         }
         else{
           musicas[k].playing = false;
@@ -105,7 +113,7 @@ export default function App() {
         <View style={{paddingBottom:200}}></View>
       </ScrollView>
       
-        <Player></Player>
+        <Player playing={playing} setPlaying={setPlaying} audioIndex={audioIndex} musicas={musicas} setarMusicas={setarMusicas} audio={audio} setarAudio={setarAudio}></Player>
 
     </View>  
   );
